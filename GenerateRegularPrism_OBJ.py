@@ -95,4 +95,48 @@ ax.set_zlim([0, 10])
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_zlabel('Z')
-plt.show()
+#plt.show()
+
+# At the moment we have a wireframe model
+# From here we can generate the .obj file
+
+# Create new vertices for the top and bottom faces
+bottom = p + np.dot(rot, np.array([0, 0, 0]))
+top = p + np.dot(rot, np.array([0, 0, h]))
+vertices = np.vstack((vertices, bottom, top))
+
+# In each face we will hace 2 triangles plus the top and bottom faces
+faces = []
+normals = []
+
+# Generate the bottom face
+for i in range(1, n+1):
+    faces.append([2*(i-1), len(vertices)-2, (2*i)%(n*2)])
+    normals.append([0, 0, -1])
+
+# Generate the top face
+for i in range(1, n+1):
+    faces.append([2*(i-1)+1, (2*i+1)%(n*2),  len(vertices)-1])
+    normals.append([0, 0, 1])
+
+# Generate the lateral faces
+# In each face 2 triangles are generated clockwise outwards
+for i in range(1, n+1):
+    faces.append([2*(i-1), (2*i+1)%(n*2), 2*(i-1)+1])
+    normals.append([np.cos(np.radians(ang_step * (i-1))), np.sin(np.radians(ang_step * (i-1))), 0])
+    faces.append([2*(i-1), (2*i)%(n*2), (2*i+1)%(n*2)])
+    normals.append([np.cos(np.radians(ang_step * (i-1))), np.sin(np.radians(ang_step * (i-1))), 0])
+
+# Print the faces and normals tables
+print("Faces: ", faces)
+print("Normals: ", normals)
+
+# Write the .obj file with the faces in vertex normal indices without texture
+with open('RegularPrism.obj', 'w') as f:
+    f.write("# Regular Prism\n")
+    for v in vertices:
+        f.write("v " + " ".join([str(i) for i in v]) + "\n")
+    for n in normals:
+        f.write("vn " + " ".join([str(i) for i in n]) + "\n")
+    for face in faces:
+        f.write("f " + " ".join([str(i+1) + "//" + str(i+1) for i in face]) + "\n")
