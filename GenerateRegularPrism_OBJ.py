@@ -95,7 +95,8 @@ ax.set_zlim([0, 10])
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_zlabel('Z')
-#plt.show()
+ax.title.set_text('Regular Prism Wireframe Model')
+plt.show()
 
 # At the moment we have a wireframe model
 # From here we can generate the .obj file
@@ -140,3 +141,16 @@ with open('RegularPrism.obj', 'w') as f:
         f.write("vn " + " ".join([str(i) for i in n]) + "\n")
     for face in faces:
         f.write("f " + " ".join([str(i+1) + "//" + str(i+1) for i in face]) + "\n")
+
+# Visualize the model as a solid
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_trisurf(vertices[:, 0], vertices[:, 1], vertices[:, 2], triangles=faces, color='b')
+ax.set_xlim([-10, 10])
+ax.set_ylim([-10, 10])
+ax.set_zlim([0, 10])
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+ax.title.set_text('Regular Prism Solid Model')
+plt.show()
