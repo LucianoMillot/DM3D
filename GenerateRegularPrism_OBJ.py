@@ -142,6 +142,23 @@ with open('RegularPrism.obj', 'w') as f:
     for face in faces:
         f.write("f " + " ".join([str(i+1) + "//" + str(i+1) for i in face]) + "\n")
 
+# Visualize the vertices and edges that will be written in the .obj file
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(vertices[:, 0], vertices[:, 1], vertices[:, 2], color='r')
+for edge in edges:
+    ax.plot3D([vertices[edge[0], 0], vertices[edge[1], 0]],
+              [vertices[edge[0], 1], vertices[edge[1], 1]],
+              [vertices[edge[0], 2], vertices[edge[1], 2]], 'b')
+ax.set_xlim([-10, 10])
+ax.set_ylim([-10, 10])
+ax.set_zlim([0, 10])
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+ax.title.set_text('Regular Prism Solid Vertices and Edges')
+plt.show()
+
 # Visualize the model as a solid
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
