@@ -42,7 +42,7 @@ def create_interface():
     text_frame = ttk.Frame(root)
     text_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
-    doc_text = ttk.Label(text_frame, text="Welcome to the Power Strip STL Model Generator. \nPlease select the type of socket you desire, the distance between each of them and specify the quantity you need.")
+    doc_text = ttk.Label(text_frame, text="Welcome to the Power Strip Model Generator.")
     doc_text.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
     # Create a frame for the image on the left
